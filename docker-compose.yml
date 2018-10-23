@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  client:
+    image: nginx
+    volumes:
+      - ./client/dist/client:/usr/share/nginx/html
+    ports: 
+      - 4200:80
+    depends_on:
+      - server
+  server:
+    image: microsoft/dotnet:2.1-aspnetcore-runtime
+    working_dir: /app
+    volumes:
+      - ./server/bin/Debug/netcoreapp2.1/publish/:/app
+    ports: 
+      - 5000:80
+    entrypoint: ["dotnet", "server.dll"]
